@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Dynamic Injection</title>
+	<style type="text/css">
+		#myCanvas1 {margin-top: -5px;}
+	</style>
+</head>
+<body>
+	<video src="oceans.mp4" controls="controls" id="myVideo" style="display: none;"></video>
+	<canvas id="myCanvas" width="400" height="300"></canvas><br/>
+	<canvas id="myCanvas1" width="400" height="300"></canvas>
+	<input type="button" value="begin" id="playBtn">
+	<p>http://blog.csdn.net/wl110231/article/details/7599557</p>
+	<p>http://www.cnblogs.com/hongru/archive/2012/01/06/2314871.html</p>
+	<p>http://javascript.ruanyifeng.com/htmlapi/canvas.html#toc13</p>
+	<p>http://www.iteye.com/news/7097</p>
+
+	<script type="text/javascript">
+		(function(win, doc) {
+			
+			var $ = function(domId) {
+				return document.getElementById(domId);
+			};
+
+			var timer;
+			var video = $('myVideo')
+				,canvas = $('myCanvas')
+				,canvas1 = $('myCanvas1')
+				,playBtn = $('playBtn');
+			var context = canvas.getContext('2d')
+				,context1 = canvas1.getContext('2d');
+
+			
+			video.addEventListener('play', function() {
+				timer = setInterval(function() {
+					context.drawImage(video, 0, 0, 400, 300);
+					context1.drawImage(video, 0, 0, 400, 300);
+				}, 20);
+			}, false);
+			video.addEventListener('pause', function() {
+				clearInterval(timer);
+			}, false);
+			video.addEventListener('ended', function() {
+				clearInterval(timer);
+			}, false);
+			video.addEventListener('canplay', function() {
+				setTimeout(function() {
+					context.drawImage(video, 0, 0, 400, 300);
+					context1.drawImage(video, 0, 0, 400, 300);
+				}, 1000)
+			})
+
+			playBtn.addEventListener('click', function() {
+				video.play();
+			}, false);
+
+		})(window, document);
+		
+
+	</script>
+</body>
+</html>

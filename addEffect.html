@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Dynamic Injection</title>
+	<style type="text/css">
+		/*#myCanvas1 {margin-top: -5px;}*/
+	</style>
+</head>
+<body>
+	<video src="oceans.mp4" controls="controls" id="myVideo" style="display: none;"></video>
+	<canvas id="myCanvas" width="400" height="300"></canvas><br/>
+	<canvas id="myCanvas1" width="400" height="300"></canvas>
+	<input type="button" value="begin" id="playBtn">
+
+	<script type="text/javascript">
+		(function(win, doc) {
+			
+			var $ = function(domId) {
+				return document.getElementById(domId);
+			};
+
+			var timer;
+			var video = $('myVideo')
+				,canvas = $('myCanvas')
+				,canvas1 = $('myCanvas1')
+				,playBtn = $('playBtn');
+			var context = canvas.getContext('2d')
+				,context1 = canvas1.getContext('2d');
+
+			
+			video.addEventListener('play', function() {
+				timer = setInterval(function() {
+					context.drawImage(video, 0, 0, 400, 300);
+					
+					context1.translate(0, 300);
+					context1.scale(1, -1);
+
+					// context1.rotate(-Math.PI/2);
+					context1.globalAlpha = 0.3;
+					context1.drawImage(video, 0, 100, 400, 200);
+					// context1.drawImage(video, 0, 0);
+					context1.translate(0, 300);
+					context1.scale(1, -1);
+					context1.restore();
+					context1.save();
+
+					/*context1.beginPath(); 
+					context1.lineWidth = 4;
+					context1.lineTo(1000, 20);
+					context1.strokeStyle = "#CC0000";
+					context1.stroke(); 
+					context1.restore();
+					context1.save();*/
+
+				}, 20);
+			}, false);
+			video.addEventListener('pause', function() {
+				clearInterval(timer);
+			}, false);
+			video.addEventListener('ended', function() {
+				clearInterval(timer);
+			}, false);
+			video.addEventListener('canplay', function() {
+				setTimeout(function() {
+					context.drawImage(video, 0, 0, 400, 300);
+					// context1.drawImage(video, 0, 0, 400, 300);
+				}, 1000);
+			})
+
+			playBtn.addEventListener('click', function() {
+				video.play();
+			}, false);
+
+		})(window, document);
+		
+
+	</script>
+</body>
+</html>
