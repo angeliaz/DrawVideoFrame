@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas 绘制视频帧</title>
+</head>
+<body>
+	<video src="blood.mp4" controls="controls" id="myVideo"></video>
+	<canvas id="myCanvas" width="300" height="200"></canvas>
+
+	<script type="text/javascript">
+		
+		var timer;
+		var video = document.getElementById('myVideo');
+		var canvas = document.getElementById('myCanvas');
+		var context = canvas.getContext('2d');
+		video.addEventListener('play', function() {
+			timer = setInterval(function() {
+				context.drawImage(video, 0, 0, 300, 200);
+			}, 20);
+		}, false);
+		video.addEventListener('pause', function() {
+			clearInterval(timer);
+		}, false);
+		video.addEventListener('ended', function() {
+			clearInterval(timer);
+		}, false);
+
+		
+	</script>
+</body>
+</html>
