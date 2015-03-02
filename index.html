@@ -5,17 +5,26 @@
 	<title>Canvas 绘制视频帧</title>
 </head>
 <body>
+	<img id="myImage" src="images/magnifier-small.jpg" alt="myImage" style="display: none;">
 	<video src="blood.mp4" controls="controls" id="myVideo"></video>
 	<canvas id="myCanvas" width="300" height="200"></canvas>
+	<canvas id="myCanvas1" width="300" height="200"></canvas>
 
 	<script type="text/javascript">
+
+		var $ = function(domId) {return doc.getElementById(domId);}
 		
 		var timer;
+		var image = $('myImage');
 		var video = document.getElementById('myVideo');
 		var canvas = document.getElementById('myCanvas');
+		var canvas1 = document.getElementById('myCanvas1');
 		var context = canvas.getContext('2d');
+		var context1 = canvas1.getContext('2d');
+
 		video.addEventListener('play', function() {
 			timer = setInterval(function() {
+				context.drawImage(video, 0, 0, 300, 200);
 				context.drawImage(video, 0, 0, 300, 200);
 			}, 20);
 		}, false);
